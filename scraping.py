@@ -70,26 +70,3 @@ def save_to_csv(data, output_file):
 
 
     print(f"Salvo {len(data)} registros em '{output_file}'")
-
-
-#pegar o significado
-palavra = args.palavra # Substitua pela palavra desejada
-selector_significado = 'div.def'  # Substitua pelo seletor correto
-selector_nivel= 'span.def-info'  # Substitua pelo seletor correto
-arquivo_saida = './dados/significados.csv'
-
-# Execução
-dados = scrape_significado_palavra(palavra, selector_significado, selector_nivel)
-save_to_csv(dados, arquivo_saida)
-
-seletor_css = 'div.examp'  # Substitua pelo seletor correto
-seletor_css_hidden_examples = 'li.eg'  # Substitua pelo seletor correto
-selector_nivel= 'span.def-info' 
-arquivo_saida = './dados/exemplos.csv'
-
-# Execução
-dados = scrape_significado_palavra(palavra, seletor_css, selector_nivel)
-save_to_csv(dados, arquivo_saida)
-
-dados = scrape_significado_palavra(palavra, seletor_css_hidden_examples, selector_nivel)
-save_to_csv(dados, arquivo_saida)
