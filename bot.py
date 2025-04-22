@@ -8,6 +8,7 @@ import time
 import pandas as pd
 import csv
 import random
+from importlib import reload
 
 import scraping
 
@@ -45,20 +46,26 @@ async def salvar_palavra_nova(update: Update, context: ContextTypes.DEFAULT_TYPE
     dados = scraping.scrape_significado_palavra(palavra, selector_significado, selector_nivel)
     scraping.save_to_csv(dados, arquivo_saida)
 
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Significados")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"{dados}")
+
     seletor_css = 'div.examp'  
     seletor_css_hidden_examples = 'li.eg'  
     selector_nivel= 'span.def-info' 
     arquivo_saida = './dados/exemplos.csv'
 
-
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Exemplos")
+    
     dados = scraping.scrape_significado_palavra(palavra, seletor_css, selector_nivel)
     scraping.save_to_csv(dados, arquivo_saida)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"{dados}")
 
     dados = scraping.scrape_significado_palavra(palavra, seletor_css_hidden_examples, selector_nivel)
     scraping.save_to_csv(dados, arquivo_saida)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"{dados}")
 
     await context.bot.send_message(chat_id=update.effective_chat.id, text=f"O termo '{palavra}' foi salvo com sucesso")
-    
+
 
 async def mostrar_palavra(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
@@ -79,10 +86,9 @@ def main():
     # Obter o dispatcher para registrar os manipuladores
     application = ApplicationBuilder().token(TOKEN).build()
 
-
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
     echo_handler = CommandHandler('echo', echo)
-    salvar_palavra_nova_handler = CommandHandler('salvar', salvar_palavra_nova)
+    salvar_palavra_nova_handler = CommandHandler('s', salvar_palavra_nova)
     mostrar_palavra_handler = CommandHandler('mostrar', mostrar_palavra)
 
     # Diferentes manipuladores para diferentes comandos

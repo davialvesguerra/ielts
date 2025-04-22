@@ -1,0 +1,2 @@
+- adicionar no csv de exemplos/significados quantas vezes a palavra foi revisitada
+- criar um questionário sobre alguma questão
